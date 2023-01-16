@@ -1,0 +1,453 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+            <!-- Begin Slider With Category Menu Area -->
+            <div class="slider-with-banner">
+                <div class="container">
+                    <div class="row">
+                        <!-- Begin Category Menu Area -->
+                       <div class="col-lg-3">
+                            <!--Category Menu Start-->
+                            <div class="category-menu category-menu-2">
+                                <div class="category-heading">
+                                    <h2 class="categories-toggle">
+                                        <span>categories</span>
+                                    </h2>
+                                </div>
+                                <div id="cate-toggle" class="category-menu-list">
+                                    <ul>
+                                        {% for cat in categories %}
+                                        <li class="right-menu"><a href="/category/{{cat.slug}}">{{cat.name}}</a>
+<!--                                            <ul class="cat-mega-menu cat-mega-menu-2">-->
+<!--                                                {% for sub in subcategories %}-->
+<!--                                                <li class="right-menu cat-mega-title">-->
+<!--                                                   <a href="shop-left-sidebar.html">{{sub.name}}</a>-->
+<!--                                                    <ul>-->
+<!--                                                        <li><a href="#" >{{sub.category}}</a></li>-->
+<!--                                                    </ul>-->
+<!--                                                </li>-->
+<!--                                                {% endfor %}-->
+<!--                                            </ul>-->
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--Category Menu End-->
+                        </div>
+                        <!-- Category Menu Area End Here -->
+                        <!-- Begin Slider Area -->
+                        <div class="col-lg-6 col-md-8">
+                            <div class="slider-area slider-area-3 pt-sm-30 pt-xs-30 pb-xs-30">
+                                <div class="slider-active owl-carousel">
+                                    <!-- Begin Single Slide Area -->
+                                    {% for slid in sliders %}
+                                    <div class="single-slide align-center-left animation-style-01 bg-7">
+                                        <div class="slider-progress"></div>
+                                        <div class="slider-content">
+                                            <h2>{{slid.name}}</h2>
+                                            <h3>Starting at <span>${{slid.price}}</span></h3>
+                                            <div class="default-btn slide-btn">
+                                                <a class="links" href="{{slid.url}}">Shopping Now</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    <!-- Single Slide Area End Here -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slider Area End Here -->
+                        <!-- Begin Li Banner Area -->
+                        <div class="col-lg-3 col-md-4 text-center pt-sm-30">
+                            {% for ad in ads %}
+                            {% if ad.rank == 1 %}
+                            <div class="li-banner">
+                                <a href="#">
+                                    <img src="{{ad.image.url}}" alt="">
+                                </a>
+                            </div>
+                            {% elif ad.rank == 2 %}
+                            <div class="li-banner mt-15 mt-sm-30 mt-xs-25 mb-xs-5">
+                                <a href="#">
+                                    <img src="{{ad.image.url}}" alt="">
+                                </a>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <!-- Li Banner Area End Here -->
+                    </div>
+                </div>
+            </div>
+            <!-- Slider With Category Menu Area End Here -->
+            <!-- Begin Li's Static Banner Area -->
+            <div class="li-static-banner pt-20 pt-sm-30">
+                <div class="container">
+                    <div class="row">
+                        <!-- Begin Single Banner Area -->
+                        {% for ad in ads %}
+                        {% if ad.rank == 3 %}
+                        <div class="col-lg-4 col-md-4 text-center">
+                            <div class="single-banner pb-xs-30">
+                                <a href="#">
+                                    <img src="{{ad.image.url}}" alt="Li's Static Banner">
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        <!-- Single Banner Area End Here -->
+                        <!-- Begin Single Banner Area -->
+                        {% for ad in ads %}
+                        {% if ad.rank == 4 %}
+                        <div class="col-lg-4 col-md-4 text-center">
+                            <div class="single-banner pb-xs-30">
+                                <a href="#">
+                                    <img src="{{ad.image.url}}" alt="Li's Static Banner">
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        <!-- Single Banner Area End Here -->
+                        <!-- Begin Single Banner Area -->
+                        {% for ad in ads %}
+                        {% if ad.rank == 5 %}
+                        <div class="col-lg-4 col-md-4 text-center">
+                            <div class="single-banner">
+                                <a href="#">
+                                    <img src="{{ad.image.url}}" alt="Li's Static Banner">
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Single Banner Area End Here -->
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Static Banner Area End Here -->
+            <!-- Begin Li's Special Product Area -->
+            <section class="product-area li-laptop-product Special-product pt-60 pb-45">
+                <div class="container">
+                    <div class="row">
+
+                        <!-- Begin Li's Section Area -->
+                        <div class="col-lg-12">
+                            <div class="li-section-title">
+                                <h2>
+                                    <span>Hot Deals Products</span>
+                                </h2>
+                            </div>
+                            <div class="row">
+                                <div class="special-product-active owl-carousel">
+                                    {% for hot in hot_products %}
+                                    <div class="col-lg-12">
+                                        <!-- single-product-wrap start -->
+                                        <div class="single-product-wrap">
+                                            <div class="product-image">
+                                                <a href="/details/{{hot.slug}}">
+                                                    <img src="{{hot.image.url}}" alt="Li's Product Image">
+                                                </a>
+                                                <span class="sticker">HOT</span>
+                                            </div>
+                                            <div class="product_desc">
+                                                <div class="product_desc_info">
+                                                    <div class="product-review">
+                                                        <h5 class="manufacturer">
+                                                            <a href="/details/{{hot.slug}}">{{hot.name}}</a>
+                                                        </h5>
+                                                        <div class="rating-box">
+                                                            <ul class="rating">
+                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                <li><i class="fa fa-star-o"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <h4><a class="product_name" href="/details/{{hot.slug}}">{{hot.name}}</a></h4>
+                                                    <div class="price-box">
+                                                        {% if hot.discounted_price > 0 %}
+                                                       <span class="new-price new-price-2">${{hot.price}}</span> <span class="old-price">${{hot.discounted_price}}</span>
+                                                        {% else %}
+                                                        <span class="new-price new-price-2">${{hot.price}}</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="add-actions">
+                                                    <ul class="add-actions-link">
+                                                        <li class="add-cart active"><a href="#">Add to cart</a></li>
+                                                        <li><a class="links-details" href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- single-product-wrap end -->
+                                    </div>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Li's Section Area End Here -->
+                    </div>
+                </div>
+            </section>
+            <!-- Li's Special Product Area End Here -->
+            <!-- Begin Featured Product With Banner Area -->
+            <div class="featured-pro-with-banner mt-sm-5 pb-sm-10 mt-xs-5 pb-xs-10">
+                <div class="container">
+                    <div class="row">
+                        <!-- Begin Li's Featured Banner Area -->
+                        {% for ad in ads %}
+                        {% if ad.rank == 6 %}
+                        <div class="col-lg-3 text-center">
+                            <div class="single-banner featured-banner">
+                                <a href="#">
+                                    <img src="{{ad.image.url}}" alt="Li's Featured Banner">
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        <!-- Li's Featured Banner Area End Here -->
+                        <!-- Begin Featured Product Area -->
+                  <div class="col-lg-9">
+                            <div class="featured-product pt-sm-30 pt-xs-30">
+                                <div class="li-section-title">
+                                    <h2>
+                                        <span>Featured Products</span>
+                                    </h2>
+                                </div>
+                                <div class="row">
+                                    <div class="featured-product-active owl-carousel owl-loaded owl-drag">
+                                    <div class="owl-stage-outer">
+                                        <div class="owl-stage">
+
+                                            {% for new in new_products %}
+                                            <div class="owl-item" style="width: 450px;">
+                                                <div class="featured-product-bundle">
+                                                <div class="featured-pro-wrapper mb-30 mb-sm-25">
+                                                    <div class="product-img">
+                                                        <a href="/details/{{new.slug}}">
+                                                            <img alt="" src="{{new.image.url}}">
+                                                        </a>
+                                                    </div>
+                                                    <div class="featured-pro-content">
+                                                        <div class="product-review">
+                                                            <h5 class="manufacturer">
+                                                                <a href="/details/{{new.slug}}">{{new.name}}</a>
+                                                            </h5>
+                                                        </div>
+                                                        <div class="rating-box">
+                                                            <ul class="rating">
+                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                <li><i class="fa fa-star-o"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                        <h4><a class="featured-product-name" href="/details/{{new.slug}}">{{new.name}}</a></h4>
+                                                        <div class="featured-price-box">
+                                                            {% if new.discounted_price > 0 %}
+                                                       <span class="new-price new-price-2">${{new.price}}</span> <span class="old-price">${{new.discounted_price}}</span>
+                                                        {% else %}
+                                                        <span class="new-price new-price-2">${{new.price}}</span>
+                                                        {% endif %}
+                                                        </div>
+                                                        <div class="featured-product-action">
+                                                            <ul class="add-actions-link">
+                                                                <li class="add-cart active"><a href="#">Add to cart</a></li>
+                                                                <li><a class="links-details" href="single-product.html"><i class="fa fa-heart-o"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Featured Product Area End Here -->
+                    </div>
+                </div>
+            </div>
+            <!-- Featured Product With Banner Area End Here -->
+
+
+            <!-- Begin Li's Static Banner Area -->
+            <div class="li-static-banner li-static-banner-3 text-center">
+                <div class="container">
+                    <div class="row">
+                        <!-- Begin Single Banner Area -->
+                        {% for ad in ads %}
+                        {% if ad.rank == 7 %}
+                        <div class="col-lg-6 col-md-6">
+                            <div class="single-banner pb-xs-30">
+                                <a href="#">
+                                    <img src="{{ad.image.url}}" alt="Li's Static Banner">
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        <!-- Single Banner Area End Here -->
+                        <!-- Begin Single Banner Area -->
+                         {% for ad in ads %}
+                        {% if ad.rank == 8 %}
+                        <div class="col-lg-6 col-md-6">
+                            <div class="single-banner">
+                                <a href="#">
+                                    <img src="{{ad.image.url}}" alt="Li's Static Banner">
+                                </a>
+                            </div>
+                        </div>
+                         {% endif %}
+                        {% endfor %}
+                        <!-- Single Banner Area End Here -->
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Static Banner Area End Here -->
+            <!-- Begin Li's Trending Product Area -->
+            <section class="product-area li-trending-product pt-60 pb-45 pt-xs-50">
+                <div class="container">
+                    <div class="row">
+                        <!-- Begin Li's Tab Menu Area -->
+                        <div class="col-lg-12">
+                            <div class="li-product-tab li-trending-product-tab">
+                                <h2>
+                                    <span>Trendding Products</span>
+                                </h2>
+                                <ul class="nav li-product-menu li-trending-product-menu">
+                                   <li><a class="active" data-toggle="tab" href="#home1"><span>Nike</span></a></li>
+                                   <li><a data-toggle="tab" href="#home2"><span>Boots</span></a></li>
+                                </ul>
+                            </div>
+                            <!-- Begin Li's Tab Menu Content Area -->
+                            <div class="tab-content li-tab-content li-trending-product-content">
+                                <div id="home1" class="tab-pane show fade in active">
+                                    <div class="row">
+                                        <div class="product-active owl-carousel">
+                                        {% for sale in trending_products %}
+                                            <div class="col-lg-12">
+                                                <!-- single-product-wrap start -->
+                                                <div class="single-product-wrap">
+                                                    <div class="product-image">
+                                                        <a href="/details/{{sale.slug}}">
+                                                            <img src="{{sale.image.url}}" alt="Li's Product Image">
+                                                        </a>
+                                                        <span class="sticker">SALE</span>
+                                                    </div>
+                                                    <div class="product_desc">
+                                                        <div class="product_desc_info">
+                                                            <div class="product-review">
+                                                                <h5 class="manufacturer">
+                                                                    <a href="/details/{{sale.slug}}">{{sale.name}}</a>
+                                                                </h5>
+                                                                <div class="rating-box">
+                                                                    <ul class="rating">
+                                                                        <li><i class="fa fa-star-o"></i></li>
+                                                                        <li><i class="fa fa-star-o"></i></li>
+                                                                        <li><i class="fa fa-star-o"></i></li>
+                                                                        <li><i class="fa fa-star-o"></i></li>
+                                                                        <li><i class="fa fa-star-o"></i></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <h4><a class="product_name" href="/details/{{sale.slug}}">{{sale.name}}</a></h4>
+                                                            <div class="price-box">
+                                                                    {% if sale.discounted_price > 0 %}
+                                                       <span class="new-price new-price-2">${{sale.price}}</span> <span class="old-price">${{sale.discounted_price}}</span>
+                                                        {% else %}
+                                                        <span class="new-price new-price-2">${{sale.price}}</span>
+                                                        {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="add-actions">
+                                                            <ul class="add-actions-link">
+                                                                <li class="add-cart active"><a href="#">Add to cart</a></li>
+                                                                <li><a class="links-details" href="single-product.html"><i class="fa fa-heart-o"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- single-product-wrap end -->
+                                            </div>
+                                        {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="home2" class="tab-pane fade">
+                                    <div class="row">
+                                        <div class="product-active owl-carousel">
+                                             {% for sale in trending_products %}
+                                            <div class="col-lg-12">
+                                                <!-- single-product-wrap start -->
+                                                <div class="single-product-wrap">
+                                                    <div class="product-image">
+                                                        <a href="single-product.html">
+                                                            <img src="{{sale.image.url}}" alt="Li's Product Image">
+                                                        </a>
+                                                        <span class="sticker">SALE</span>
+                                                    </div>
+                                                    <div class="product_desc">
+                                                        <div class="product_desc_info">
+                                                            <div class="product-review">
+                                                                <h5 class="manufacturer">
+                                                                    <a href="shop-left-sidebar.html">{{sale.name}}</a>
+                                                                </h5>
+                                                                <div class="rating-box">
+                                                                    <ul class="rating">
+                                                                        <li><i class="fa fa-star-o"></i></li>
+                                                                        <li><i class="fa fa-star-o"></i></li>
+                                                                        <li><i class="fa fa-star-o"></i></li>
+                                                                        <li><i class="fa fa-star-o"></i></li>
+                                                                        <li><i class="fa fa-star-o"></i></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <h4><a class="product_name" href="single-product.html">{{sale.name}}</a></h4>
+                                                            <div class="price-box">
+                                                                    {% if sale.discounted_price > 0 %}
+                                                       <span class="new-price new-price-2">${{sale.price}}</span> <span class="old-price">${{sale.discounted_price}}</span>
+                                                        {% else %}
+                                                        <span class="new-price new-price-2">${{sale.price}}</span>
+                                                        {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="add-actions">
+                                                            <ul class="add-actions-link">
+                                                                <li class="add-cart active"><a href="#">Add to cart</a></li>
+                                                                <li><a class="links-details" href="single-product.html"><i class="fa fa-heart-o"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- single-product-wrap end -->
+                                            </div>
+                                        {% endfor %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tab Menu Content Area End Here -->
+                        </div>
+                        <!-- Tab Menu Area End Here -->
+                    </div>
+                </div>
+            </section>
+            <!-- Li's Trending Product Area End Here -->
+{% endblock %}
