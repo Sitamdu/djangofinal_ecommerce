@@ -41,8 +41,9 @@
                                                     {% if cart.items.discounted_price > 0 %}
                                                     <span class="amount">$ {{cart.items.discounted_price}}</span>
                                                 {% else %}
-                                                <span class="amount">$ {{cart.items.price}} </span></td>
+                                                <span class="amount">$ {{cart.items.price}} </span>
                                                 {% endif %}
+                                                </td>
                                                 <td class="quantity">
                                                     <label>Quantity</label>
                                                     <div class="cart-plus-minus">
@@ -79,7 +80,7 @@
                                                 <li>Shipping <span>${{shipping}}</span></li>
                                                 <li>Total <span>${{grand_total}}</span></li>
                                             </ul>
-                                            <a href="#">Proceed to checkout</a>
+                                            <a href="/checkout">Proceed to checkout</a>
                                         </div>
                                     </div>
                                 </div>

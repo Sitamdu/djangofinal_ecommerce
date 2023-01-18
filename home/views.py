@@ -6,22 +6,26 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login
 import datetime
-
+from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.conf import settings
 
 # Create your views here.
 class BaseView(View):
     views = {}
 
-class HomeView(BaseView):
 
+class HomeView(BaseView):
     def get(self,request):
         self.views['categories'] = Category.objects.all()
         self.views['subcategories'] = SubCategory.objects.all()
         self.views['sliders'] = Slider.objects.all()
         self.views['ads'] = Ad.objects.all()
-        self.views['new_products'] = Product.objects.filter(label = 'new')
-        self.views['hot_products'] = Product.objects.filter(label = 'Hot')
-        self.views['trending_products'] = Product.objects.filter(label = 'sale')
+        self.views['new_products'] = Product.objects.filter(label = 'new',stock= 'In stock')
+        self.views['hot_products'] = Product.objects.filter(label = 'Hot',stock= 'In stock')
+        self.views['trending_products'] = Product.objects.filter(label = 'sale',stock= 'In stock')
+
+
 
         return render(request,'index.html',self.views)
 
@@ -107,7 +111,7 @@ def product_review(request,slug):
         data.save()
     return redirect(f"/details/{slug}")
 
-
+@login_required
 def cart(request,slug):
     username = request.user.username
     if Cart.objects.filter(slug = slug,username = username,checkout=False).exists():
@@ -181,8 +185,92 @@ class CartView(BaseView):
             self.views['grand_total'] = grand_total + 100
         else:
             self.views['grand_total'] = 0
+        self.views['cart_count'] = Cart.objects.filter(username=username, checkout=False).count()
         return render(request,'shopping-cart.html',self.views)
 
+def wish(request,slug):
+    username = request.user.username
+    if Wish.objects.filter(slug = slug, username = username).exists():
+        messages.error(request, 'Product is already on the wishlist!')
+        return redirect('/my_wish')
+    else:
+        data = Wish.objects.create(
+            username = username,
+            slug = slug,
+            items = Product.objects.filter(slug=slug)[0]
+        )
+        data.save()
+        return redirect('/my_wish')
+
+def delete_wish(request,slug):
+    username = request.user.username
+    Wish.objects.filter(slug=slug, username=username).delete()
+    messages.error(request, 'The wishlist is removed!')
+    return redirect('/my_wish')
+
+class WishListView(BaseView):
+
+    def get(self,request):
+        username = request.user.username
+        self.views['my_wishes'] = Wish.objects.filter(username = username)
+        self.views['wish_count'] = Wish.objects.filter(username=username).count()
+        return render(request,'wishlist.html',self.views)
 
 
+def contact(request):
+    views = {}
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
+        data = Contact.objects.create(
+            name = name,
+            email = email,
+            subject = subject,
+            message = message
+        )
+        data.save()
+        subject = 'Thank you for messaging to our site'
+        message = ' We received your message and it  means a world to us '
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = ['beekramrai22@gmail.com']
+        send_mail(subject, message, email_from, recipient_list)
+        views['mess'] = 'The message is submitted!'
+        return render(request, 'contact.html',views)
+
+    return render(request,'contact.html',views)
+
+class CheckoutView(BaseView):
+    def get(self,request):
+        username = request.user.username
+        # self.views['my_checkout'] = Checkout.objects.filter(username=username, checkout=True)
+        return render(request,'checkout.html',self.views)
+
+def billing(request):
+    views = {}
+    if request.method == "POST":
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+        email = request.POST['email']
+        phone = request.POST['phone']
+        address = request.POST['address']
+        city = request.POST['city']
+        state = request.POST['state']
+        zipp = request.POST['zipp']
+        data = Bill.objects.create(
+            firstname = firstname,
+            lastname = lastname,
+            email = email,
+            phone = phone,
+            address = address,
+            city = city,
+            state = state,
+            zipp = zipp,
+        )
+        data.save()
+        views['mess'] ='Your order is submitted!'
+        return render(request, 'checkout.html',views)
+
+    return render(request, 'checkout.html',views)
 

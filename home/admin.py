@@ -10,4 +10,9 @@ admin.site.register(Ad)
 admin.site.register(ProductImage)
 admin.site.register(ProductReview)
 admin.site.register(Cart)
+admin.site.register(Wish)
+admin.site.register(Contact)
+admin.site.register(Bill)
+
+
 

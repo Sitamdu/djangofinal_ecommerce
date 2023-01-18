@@ -13,6 +13,16 @@ urlpatterns =[
     path('my_cart', CartView.as_view(), name ='my_cart'),
     path('reduce_cart/<slug>', decrease_quantity, name='reduce_cart'),
     path('delete_cart/<slug>', delete_cart, name = 'delete_cart'),
+    path('wish/<slug>',wish,name='wish'),
+    path('my_wish', WishListView.as_view(),name ='my_wish'),
+    path('delete_wish/<slug>', delete_wish, name='delete_wish'),
+    path('contact',contact, name= 'contact'),
+    path('checkout', CheckoutView.as_view(),name='checkout'),
+    path('billings', billing, name = 'billings'),
+
+
+
+
 
     path('password_reset/',auth_views.PasswordResetView.as_view(),name='password_reset'),
     path('password_reset/done/',auth_views.PasswordResetDoneView.as_view(),name='password_reset_done'),
