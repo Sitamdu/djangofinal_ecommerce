@@ -91,6 +91,7 @@ def signup(request):
             return redirect('/signup')
     return render(request,'signup.html')
 
+@login_required
 def product_review(request,slug):
     if request.method == 'POST':
         username = request.user.username
