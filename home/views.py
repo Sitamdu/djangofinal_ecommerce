@@ -242,11 +242,18 @@ def contact(request):
 
     return render(request,'contact.html',views)
 
+
+def checker(request,slug):
+    username = request.user.username
+    # Cart.objects.filter(slug= slug,username=username,checkout = True)
+    return redirect('/checkout')
+
 class CheckoutView(BaseView):
     def get(self,request):
         username = request.user.username
-        # self.views['my_checkout'] = Checkout.objects.filter(username=username, checkout=True)
-        return render(request,'checkout.html',self.views)
+        self.views['my_check'] = Cart.objects.filter(username= username,checkout = False)
+        return render(request, 'checkout.html', self.views)
+
 
 def billing(request):
     views = {}

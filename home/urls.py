@@ -18,6 +18,7 @@ urlpatterns =[
     path('delete_wish/<slug>', delete_wish, name='delete_wish'),
     path('contact',contact, name= 'contact'),
     path('checkout', CheckoutView.as_view(),name='checkout'),
+    path('checker/<slug>', checker, name = 'checker'),
     path('billings', billing, name = 'billings'),
 
 

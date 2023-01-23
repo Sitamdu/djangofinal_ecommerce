@@ -13,6 +13,8 @@ admin.site.register(Cart)
 admin.site.register(Wish)
 admin.site.register(Contact)
 admin.site.register(Bill)
+admin.site.register(Check)
+
 
 
 

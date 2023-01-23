@@ -94,23 +94,17 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {% for check in my_check %}
                                             <tr class="cart_item">
-                                              <td class="cart-product-name"> Vestibulum suscipit<strong class="product-quantity"> × 1</strong></td>
-                                              <td class="cart-product-total"><span class="amount">£165.00</span></td>
+                                              <td class="cart-product-name">{{check.items.name}}<strong class="product-quantity"> × {{check.quantity}}</strong></td>
+                                              <td class="cart-product-total"><span class="amount">{{check.items.price}}</span></td>
                                             </tr>
-                                            <tr class="cart_item">
-                                              <td class="cart-product-name"> Vestibulum suscipit<strong class="product-quantity"> × 1</strong></td>
-                                              <td class="cart-product-total"><span class="amount">£165.00</span></td>
-                                            </tr>
+                                        {% endfor %}
                                         </tbody>
                                         <tfoot>
-                                            <tr class="cart-subtotal">
-                                                <th>Cart Subtotal</th>
-                                                <td><span class="amount">£215.00</span></td>
-                                            </tr>
                                             <tr class="order-total">
                                                 <th>Order Total</th>
-                                                <td><strong><span class="amount">£215.00</span></strong></td>
+                                                <td><strong><span class="amount">{{check.total}}</span></strong></td>
                                             </tr>
                                         </tfoot>
                                     </table>

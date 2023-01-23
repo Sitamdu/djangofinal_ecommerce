@@ -109,6 +109,17 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Check(models.Model):
+    username = models.CharField(max_length=200)
+    slug = models.TextField()
+    checkout = models.BooleanField(default=True)
+    items = models.ForeignKey(Product,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.username
+
 class Bill(models.Model):
     firstname = models.CharField(max_length=100)
     lastname = models.CharField(max_length=100)
