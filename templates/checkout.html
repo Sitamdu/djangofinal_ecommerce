@@ -97,14 +97,14 @@
                                             {% for check in my_check %}
                                             <tr class="cart_item">
                                               <td class="cart-product-name">{{check.items.name}}<strong class="product-quantity"> × {{check.quantity}}</strong></td>
-                                              <td class="cart-product-total"><span class="amount">{{check.items.price}}</span></td>
+                                              <td class="cart-product-total"><span class="amount">{{check.total}}</span></td>
                                             </tr>
                                         {% endfor %}
                                         </tbody>
                                         <tfoot>
                                             <tr class="order-total">
                                                 <th>Order Total</th>
-                                                <td><strong><span class="amount">{{check.total}}</span></strong></td>
+                                                <td><strong><span class="amount">{{all_total}}</span></strong></td>
                                             </tr>
                                         </tfoot>
                                     </table>

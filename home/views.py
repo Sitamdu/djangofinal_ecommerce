@@ -13,10 +13,15 @@ from django.conf import settings
 # Create your views here.
 class BaseView(View):
     views = {}
+    # views['cart_count'] = Cart.objects.filter(checkout=False).count()
+    # views['wish_count'] = Wish.objects.count()
 
 
 class HomeView(BaseView):
     def get(self,request):
+        username = request.user.username
+        self.views['cart_count'] = Cart.objects.filter(username=username, checkout=False).count()
+        self.views['wish_count'] = Wish.objects.filter(username=username).count()
         self.views['categories'] = Category.objects.all()
         self.views['subcategories'] = SubCategory.objects.all()
         self.views['sliders'] = Slider.objects.all()
@@ -33,6 +38,9 @@ class HomeView(BaseView):
 class CategoryView(BaseView):
 
     def get(self,request,slug):
+        username = request.user.username
+        self.views['cart_count'] = Cart.objects.filter(username=username, checkout=False).count()
+        self.views['wish_count'] = Wish.objects.filter(username=username).count()
         ids = Category.objects.get(slug = slug).id
         self.views['cat_products'] = Product.objects.filter(category_id = ids)
         return render(request, 'category.html', self.views)
@@ -53,10 +61,13 @@ class SearchView(BaseView):
 
 class ProductDetailView(BaseView):
     def get(self,request,slug):
+        username = request.user.username
+        self.views['cart_count'] = Cart.objects.filter(username=username, checkout=False).count()
+        self.views['wish_count'] = Wish.objects.filter(username=username).count()
         self.views['product_detail'] = Product.objects.filter(slug=slug)
         subcat_id = Product.objects.get(slug=slug).subcategory_id
-        product_id = Product.objects.get(slug=slug).id
-        self.views['product_image'] = ProductImage.objects.filter(product_id = product_id)
+        # product_id = Product.objects.get(slug=slug).id
+        # self.views['product_image'] = ProductImage.objects.filter(product_id = product_id)
         self.views['subcat_product'] = Product.objects.filter(subcategory_id = subcat_id)
         self.views['product_review'] = ProductReview.objects.filter(slug = slug)
 
@@ -187,8 +198,11 @@ class CartView(BaseView):
         else:
             self.views['grand_total'] = 0
         self.views['cart_count'] = Cart.objects.filter(username=username, checkout=False).count()
+        self.views['wish_count'] = Wish.objects.filter(username=username).count()
+
         return render(request,'shopping-cart.html',self.views)
 
+@login_required
 def wish(request,slug):
     username = request.user.username
     if Wish.objects.filter(slug = slug, username = username).exists():
@@ -213,6 +227,7 @@ class WishListView(BaseView):
 
     def get(self,request):
         username = request.user.username
+        self.views['cart_count'] = Cart.objects.filter(username=username, checkout=False).count()
         self.views['my_wishes'] = Wish.objects.filter(username = username)
         self.views['wish_count'] = Wish.objects.filter(username=username).count()
         return render(request,'wishlist.html',self.views)
@@ -245,13 +260,21 @@ def contact(request):
 
 def checker(request,slug):
     username = request.user.username
-    # Cart.objects.filter(slug= slug,username=username,checkout = True)
+    Cart.objects.filter(slug= slug,username=username,checkout = False).update(checkout = True)
     return redirect('/checkout')
 
 class CheckoutView(BaseView):
     def get(self,request):
         username = request.user.username
+        self.views['cart_count'] = Cart.objects.filter(username=username, checkout=False).count()
+        self.views['wish_count'] = Wish.objects.filter(username=username).count()
+
+        grand_total = 0
+        username = request.user.username
         self.views['my_check'] = Cart.objects.filter(username= username,checkout = False)
+        for i in self.views['my_check']:
+            grand_total = grand_total + i.total
+        self.views['all_total'] = grand_total
         return render(request, 'checkout.html', self.views)
 
 
