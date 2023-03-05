@@ -148,7 +148,7 @@
                                         <li class="hm-wishlist">
                                             <a href="/my_wish">
                                                 {% if user.is_authenticated %}
-                                                <span class="cart-item-count wishlist-item-count">{{wish_count}}</span>
+                                                <span class="cart-item-count wishlist-item-count">{{wish_counts}}</span>
                                                 {% else %}
                                                 <span class="cart-item-count wishlist-item-count">0</span>
                                                 {% endif %}
@@ -160,7 +160,7 @@
                                         <li class="hm-wishlist">
                                             <a href="/my_cart">
                                                 {% if user.is_authenticated %}
-                                                <span class="cart-item-count wishlist-item-count">{{cart_count}}</span>
+                                                <span class="cart-item-count wishlist-item-count">{{cart_counts}}</span>
                                                 {% else %}
                                                 <span class="cart-item-count wishlist-item-count">0</span>
                                                 {% endif %}

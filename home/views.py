@@ -11,17 +11,24 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 # Create your views here.
+def count_cart(request):
+    username = request.user.username
+    cart_count = Cart.objects.filter(username = username, checkout = False).count()
+    return cart_count
+
+def count_wish(request):
+    username = request.user.username
+    wish_count = Wish.objects.filter(username=username).count()
+    return wish_count
+
 class BaseView(View):
     views = {}
-    # views['cart_count'] = Cart.objects.filter(checkout=False).count()
-    # views['wish_count'] = Wish.objects.count()
 
 
 class HomeView(BaseView):
     def get(self,request):
-        username = request.user.username
-        self.views['cart_count'] = Cart.objects.filter(username=username, checkout=False).count()
-        self.views['wish_count'] = Wish.objects.filter(username=username).count()
+        self.views['cart_counts'] = count_cart(request)
+        self.views['wish_counts'] = count_wish(request)
         self.views['categories'] = Category.objects.all()
         self.views['subcategories'] = SubCategory.objects.all()
         self.views['sliders'] = Slider.objects.all()
@@ -30,17 +37,14 @@ class HomeView(BaseView):
         self.views['hot_products'] = Product.objects.filter(label = 'Hot',stock= 'In stock')
         self.views['trending_products'] = Product.objects.filter(label = 'sale',stock= 'In stock')
 
-
-
         return render(request,'index.html',self.views)
 
 
 class CategoryView(BaseView):
 
     def get(self,request,slug):
-        username = request.user.username
-        self.views['cart_count'] = Cart.objects.filter(username=username, checkout=False).count()
-        self.views['wish_count'] = Wish.objects.filter(username=username).count()
+        self.views['cart_counts'] = count_cart(request)
+        self.views['wish_counts'] = count_wish(request)
         ids = Category.objects.get(slug = slug).id
         self.views['cat_products'] = Product.objects.filter(category_id = ids)
         return render(request, 'category.html', self.views)
@@ -48,6 +52,8 @@ class CategoryView(BaseView):
 class SearchView(BaseView):
 
     def get(self,request):
+        self.views['cart_counts'] = count_cart(request)
+        self.views['wish_counts'] = count_wish(request)
         query = request.GET.get('query')
         if query != '':
             self.views['search_products'] = Product.objects.filter(Q(name__icontains = query) | Q(description__icontains = query))
@@ -61,9 +67,8 @@ class SearchView(BaseView):
 
 class ProductDetailView(BaseView):
     def get(self,request,slug):
-        username = request.user.username
-        self.views['cart_count'] = Cart.objects.filter(username=username, checkout=False).count()
-        self.views['wish_count'] = Wish.objects.filter(username=username).count()
+        self.views['cart_counts'] = count_cart(request)
+        self.views['wish_counts'] = count_wish(request)
         self.views['product_detail'] = Product.objects.filter(slug=slug)
         subcat_id = Product.objects.get(slug=slug).subcategory_id
         # product_id = Product.objects.get(slug=slug).id
@@ -186,6 +191,8 @@ def delete_cart(request,slug):
 class CartView(BaseView):
 
     def get(self,request):
+        self.views['cart_counts'] = count_cart(request)
+        self.views['wish_counts'] = count_wish(request)
         grand_total = 0
         username = request.user.username
         self.views['my_carts'] = Cart.objects.filter(username= username,checkout = False)
@@ -197,8 +204,6 @@ class CartView(BaseView):
             self.views['grand_total'] = grand_total + 100
         else:
             self.views['grand_total'] = 0
-        self.views['cart_count'] = Cart.objects.filter(username=username, checkout=False).count()
-        self.views['wish_count'] = Wish.objects.filter(username=username).count()
 
         return render(request,'shopping-cart.html',self.views)
 
@@ -226,10 +231,10 @@ def delete_wish(request,slug):
 class WishListView(BaseView):
 
     def get(self,request):
+        self.views['cart_counts'] = count_cart(request)
         username = request.user.username
-        self.views['cart_count'] = Cart.objects.filter(username=username, checkout=False).count()
         self.views['my_wishes'] = Wish.objects.filter(username = username)
-        self.views['wish_count'] = Wish.objects.filter(username=username).count()
+        self.views['wish_counts'] = count_wish(request)
         return render(request,'wishlist.html',self.views)
 
 
@@ -265,10 +270,8 @@ def checker(request,slug):
 
 class CheckoutView(BaseView):
     def get(self,request):
-        username = request.user.username
-        self.views['cart_count'] = Cart.objects.filter(username=username, checkout=False).count()
-        self.views['wish_count'] = Wish.objects.filter(username=username).count()
-
+        self.views['cart_counts'] = count_cart(request)
+        self.views['wish_counts'] = count_wish(request)
         grand_total = 0
         username = request.user.username
         self.views['my_check'] = Cart.objects.filter(username= username,checkout = False)
