@@ -3,7 +3,7 @@
 {% block content %}
 
             <!-- Begin Li's Breadcrumb Area -->
-            <div class="breadcrumb-area">
+<div class="breadcrumb-area" xmlns="http://www.w3.org/1999/html">
                 <div class="container">
                     <div class="breadcrumb-content">
                         <ul>
@@ -75,7 +75,7 @@
                                         </div>
                                         <div class="col-md-12">
                                              <div class="order-button-payment">
-                                            <input value="Place order" type="submit">
+                                            <input value="place order" type="submit">
                                         </div>
                                         </div>
                                     </div>
@@ -109,58 +109,57 @@
                                         </tfoot>
                                     </table>
                                 </div>
-                                <div class="payment-method">
-                                    <div class="payment-accordion">
-                                        <div id="accordion">
-                                          <div class="card">
-                                            <div class="card-header" id="#payment-1">
-                                              <h5 class="panel-title">
-                                                <a class="" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                  Direct Bank Transfer.
-                                                </a>
-                                              </h5>
-                                            </div>
-                                            <div id="collapseOne" class="collapse show" data-parent="#accordion">
-                                              <div class="card-body">
-                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div class="card">
-                                            <div class="card-header" id="#payment-2">
-                                              <h5 class="panel-title">
-                                                <a class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                  Cheque Payment
-                                                </a>
-                                              </h5>
-                                            </div>
-                                            <div id="collapseTwo" class="collapse" data-parent="#accordion">
-                                              <div class="card-body">
-                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div class="card">
-                                            <div class="card-header" id="#payment-3">
-                                              <h5 class="panel-title">
-                                                <a class="collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                  PayPal
-                                                </a>
-                                              </h5>
-                                            </div>
-                                            <div id="collapseThree" class="collapse" data-parent="#accordion">
-                                              <div class="card-body">
-                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                    </div>
+                                <div class="col-md-12">
+                                    <div id="paypal-button-container">
                                 </div>
+
+                                    <script src="https://www.paypal.com/sdk/js?client-id=AbvgTjVdtFxTdpWc8-0Y0DWzBpSPHFIK-AyEyog1639b-kcuDVh7jjkDSUHl8AQCPJtVGVNHQo_jai-m&currency=USD"></script>
+
+                                    <script>
+     paypal.Buttons({
+    style: {
+      shape: 'rect',
+      color: 'gold',
+      layout: 'vertical',
+      label: 'paypal',
+    },
+
+    createOrder: function(data, actions) {
+      // This fnc sets up the details of the transaction, including the amount
+      return actions.order.create({
+        purchase_units:[
+          {"description":"My Product Name",
+           "amount":{
+             "currency_code":"USD",
+             "value":"{{all_total}}",
+             }
+          }
+        ]
+      });
+    },
+
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(orderData) {
+        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+        var transaction = orderData.purchase_units[0].payments.captures[0];
+        alert('Transaction completed by ' + transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+      });
+    },
+     onError: function (err) {
+        console.log('Something went wrong', err);
+    }
+
+  }).render('#paypal-button-container');
+
+                                    </script>
+                                        </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!--Checkout Area End-->
+
+
    {% endblock %}
+

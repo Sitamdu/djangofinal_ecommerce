@@ -37,12 +37,13 @@ class ProductDetail(APIView):
         except Product.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk, format=None):
+    def get(self, request, pk):
         snippet = self.get_object(pk)
         serializer = ProductSerializer(snippet)
         return Response(serializer.data)
 
-    def put(self, request, pk, format=None):
+    #add
+    def put(self, request, pk):
         snippet = self.get_object(pk)
         serializer = ProductSerializer(snippet, data=request.data,partial=True)
         if serializer.is_valid():
@@ -50,7 +51,7 @@ class ProductDetail(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk, format=None):
+    def delete(self, request, pk):
         snippet = self.get_object(pk)
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
