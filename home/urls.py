@@ -20,6 +20,7 @@ urlpatterns =[
     path('checkout', CheckoutView.as_view(),name='checkout'),
     path('checker/<slug>', checker, name = 'checker'),
     path('billings', billing, name = 'billings'),
+    path('thanks', thank, name = 'thanks'),
 
 
     # for password recovery

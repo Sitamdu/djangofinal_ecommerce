@@ -277,7 +277,7 @@ class CheckoutView(BaseView):
         self.views['my_check'] = Cart.objects.filter(username= username,checkout = False)
         for i in self.views['my_check']:
             grand_total = grand_total + i.total
-        self.views['all_total'] = grand_total
+        self.views['all_total'] = grand_total + 100
         return render(request, 'checkout.html', self.views)
 
 
@@ -308,3 +308,6 @@ def billing(request):
 
     return render(request, 'checkout.html',views)
 
+def thank(request):
+
+    return render(request, 'Thankyou.html')

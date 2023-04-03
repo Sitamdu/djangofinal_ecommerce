@@ -115,51 +115,51 @@
 
                                     <script src="https://www.paypal.com/sdk/js?client-id=AbvgTjVdtFxTdpWc8-0Y0DWzBpSPHFIK-AyEyog1639b-kcuDVh7jjkDSUHl8AQCPJtVGVNHQo_jai-m&currency=USD"></script>
 
-                                    <script>
-     paypal.Buttons({
-    style: {
-      shape: 'rect',
-      color: 'gold',
-      layout: 'vertical',
-      label: 'paypal',
-    },
-
-    createOrder: function(data, actions) {
-      // This fnc sets up the details of the transaction, including the amount
-      return actions.order.create({
-        purchase_units:[
-          {"description":"My Product Name",
-           "amount":{
-             "currency_code":"USD",
-             "value":"{{all_total}}",
-             }
-          }
-        ]
-      });
-    },
-
-    onApprove: function(data, actions) {
-      return actions.order.capture().then(function(orderData) {
-        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-        var transaction = orderData.purchase_units[0].payments.captures[0];
-        alert('Transaction completed by ' + transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
-      });
-    },
-     onError: function (err) {
-        console.log('Something went wrong', err);
-    }
-
-  }).render('#paypal-button-container');
-
-                                    </script>
                                         </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--Checkout Area End-->
+<!--Checkout Area End-->
+                                    <script>
+                                     paypal.Buttons({
+                                    style: {
+                                      shape: 'rect',
+                                      color: 'gold',
+                                      layout: 'vertical',
+                                      label: 'paypal',
+                                    },
 
+                                    createOrder: function(data, actions) {
+                                      // This fnc sets up the details of the transaction, including the amount
+                                      return actions.order.create({
+                                        purchase_units:[
+                                          {"description":"My Product Name",
+                                           "amount":{
+                                             "currency_code":"USD",
+                                             "value":"{{all_total}}",
+                                             }
+                                          }
+                                        ]
+                                      });
+                                    },
+
+                                    onApprove: function(data, actions) {
+                                      return actions.order.capture().then(function(orderData) {
+                                        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+<!--                                        var transaction = orderData.purchase_units[0].payments.captures[0];-->
+<!--                                        alert('Transaction completed by ' + transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');-->
+                                        window.location.replace("{% url 'thanks' %}")
+                                      });
+                                    },
+                                     onError: function (err) {
+                                        console.log('Something went wrong', err);
+                                    }
+
+                                  }).render('#paypal-button-container');
+
+                                    </script>
 
    {% endblock %}
 
