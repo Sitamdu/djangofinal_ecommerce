@@ -165,3 +165,5 @@ EMAIL_HOST_PASSWORD = 'qxvtaieskjwcxqms'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_TRUSTED_ORIGINS = ['https://web-production-ca9d.up.railway.app/']
