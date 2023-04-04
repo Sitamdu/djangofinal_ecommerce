@@ -48,6 +48,8 @@ INSTALLED_APPS = [
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
 
+CSRF_TRUSTED_ORIGINS = ['https://web-production-9233.up.railway.app']
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -59,7 +61,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
 ]
-CSRF_TRUSTED_ORIGINS = ['https://web-production-ca9d.up.railway.app/']
+
 
 ROOT_URLCONF = 'ECOM.urls'
 
