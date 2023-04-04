@@ -309,5 +309,5 @@ def billing(request):
     return render(request, 'checkout.html',views)
 
 def thank(request):
-
-    return render(request, 'Thankyou.html')
+    
+    return render(request, 'oThankyou.html')
