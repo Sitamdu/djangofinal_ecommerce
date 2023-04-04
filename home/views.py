@@ -9,6 +9,7 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def count_cart(request):
@@ -108,6 +109,7 @@ def signup(request):
     return render(request,'signup.html')
 
 @login_required
+@csrf_exempt
 def product_review(request,slug):
     if request.method == 'POST':
         username = request.user.username
@@ -129,6 +131,7 @@ def product_review(request,slug):
     return redirect(f"/details/{slug}")
 
 @login_required
+@csrf_exempt
 def cart(request,slug):
     username = request.user.username
     if Cart.objects.filter(slug = slug,username = username,checkout=False).exists():
@@ -208,6 +211,7 @@ class CartView(BaseView):
         return render(request,'shopping-cart.html',self.views)
 
 @login_required
+@csrf_exempt
 def wish(request,slug):
     username = request.user.username
     if Wish.objects.filter(slug = slug, username = username).exists():
