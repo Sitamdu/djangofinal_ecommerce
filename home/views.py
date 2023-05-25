@@ -47,6 +47,7 @@ class CategoryView(BaseView):
         self.views['wish_counts'] = count_wish(request)
         ids = Category.objects.get(slug = slug).id
         self.views['cat_products'] = Product.objects.filter(category_id = ids)
+
         return render(request, 'category.html', self.views)
 
 class SearchView(BaseView):
@@ -63,7 +64,6 @@ class SearchView(BaseView):
             return redirect('/')
 
         return render(request, 'search.html', self.views)
-
 
 class ProductDetailView(BaseView):
     def get(self,request,slug):
@@ -195,15 +195,34 @@ class CartView(BaseView):
         self.views['wish_counts'] = count_wish(request)
         grand_total = 0
         username = request.user.username
-        self.views['my_carts'] = Cart.objects.filter(username= username,checkout = False)
+        self.views['my_carts'] = Cart.objects.filter(username=username, checkout=False)
         for i in self.views['my_carts']:
             grand_total = grand_total + i.total
         self.views['all_total'] = grand_total
-        self.views['shipping'] = 100
+        self.views['shipping'] = 50
         if self.views['all_total'] > 0:
-            self.views['grand_total'] = grand_total + 100
+            self.views['grand_total'] = grand_total + self.views['shipping']
         else:
             self.views['grand_total'] = 0
+
+        self.views['coupon'] = None
+        self.views['valid_coupon'] = None
+        self.views['Invalid_coupon'] = None
+        self.views['discount'] = 20
+
+        if request.method == "GET":
+            coupon_code = request.GET.get('coupon_code')
+            if coupon_code:
+                try:
+                    self.views['coupon'] = Coupon_code.objects.get(code=coupon_code)
+                    self.views['valid_coupon'] = "are Applicable in current order !"
+                    self.views['grand_total'] = grand_total + self.views['shipping'] - self.views['discount']
+
+                except:
+                    self.views['grand_total'] = grand_total + self.views['shipping']
+                    self.views['invalid_coupon'] = "Invalid coupon code !"
+
+
 
         return render(request,'shopping-cart.html',self.views)
 
@@ -307,6 +326,7 @@ def billing(request):
         return render(request, 'checkout.html',views)
 
     return render(request, 'checkout.html',views)
+
 
 def thank(request):
     

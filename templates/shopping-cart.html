@@ -61,10 +61,27 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="coupon-all">
+                                            <form action="" method="GET">
                                             <div class="coupon">
-                                                <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
+                                                {% if valid_coupon %}
+                                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                  <strong>{{coupon.code}}</strong>&nbsp;{{valid_coupon}}
+                                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                                {% elif invalid_coupon %}
+                                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                  {{invalid_coupon}}
+                                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                                {% endif %}
+                                                <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text" required>
                                                 <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
                                             </div>
+                                            </form>
                                             <div class="coupon2">
                                                 <input class="button" name="update_cart" value="Update cart" type="submit">
                                             </div>
@@ -75,9 +92,13 @@
                                     <div class="col-md-5 ml-auto">
                                         <div class="cart-page-total">
                                             <h2>Cart totals</h2>
+
                                             <ul>
                                                 <li>Subtotal <span>${{all_total}}</span></li>
                                                 <li>Shipping <span>${{shipping}}</span></li>
+                                                {%  if valid_coupon %}
+                                                <li>Discount <span>${{discount}}</span></li>
+                                                {% endif %}
                                                 <li>Total <span>${{grand_total}}</span></li>
                                             </ul>
                                             <a href="/checker/{% for cart in my_carts %} {{cart.slug}} {% endfor %}">Proceed to checkout</a>

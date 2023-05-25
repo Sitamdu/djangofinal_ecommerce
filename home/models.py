@@ -61,6 +61,14 @@ class Product(models.Model):
         return self.name
 
 
+class Coupon_code(models.Model):
+    code = models.CharField(max_length=100)
+    discount = models.IntegerField()
+
+    def __str__(self):
+        return self.code
+
+
 class ProductReview(models.Model):
     username = models.CharField(max_length=300)
     email = models.EmailField(max_length=200)

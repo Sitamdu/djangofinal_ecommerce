@@ -21,7 +21,7 @@ urlpatterns =[
     path('checker/<slug>', checker, name = 'checker'),
     path('billings', billing, name = 'billings'),
     path('thanks', thank, name = 'thanks'),
-
+    # path('coupon', CouponView.as_view(), name='coupon'),
 
     # for password recovery
     path('password_reset/',auth_views.PasswordResetView.as_view(),name='password_reset'),

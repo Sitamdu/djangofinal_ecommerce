@@ -13,7 +13,7 @@ admin.site.register(Wish)
 admin.site.register(Contact)
 admin.site.register(Bill)
 admin.site.register(Check)
-
+admin.site.register(Coupon_code)
 
 
 
